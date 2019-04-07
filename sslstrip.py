@@ -11,5 +11,5 @@ parser.add_argument('attackerIP', help = 'IP of attacker', metavar = 'attackerIP
 args = parser.parse_args()
 
 #validate input from command line
-if not validateInput(args):
+if not validate(args):
     sys.exit()
