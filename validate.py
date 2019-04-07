@@ -10,13 +10,14 @@ def ipv4(ip):
 
 #validate input from arguments
 def validate(args):
+    print 'hooi'
     if not args.victimIP or not args.serverIP or not args.attackerIP:
         return False
     
     if not ipv4(args.victimIP):
         print args.victimIP + colores.ORANGE + ': IP of victim client is not a valid IP address\n' + colores.RED + 'End of program' + colores.RESETALL
         return False
-    
+
     if not ipv4(args.serverIP):
         print args.serverIP + colores.ORANGE + ': IP of victim client is not a valid IP address\n' + colores.RED + 'End of program' + colores.RESETALL
         return False
