@@ -29,11 +29,11 @@ def validate(args):
     if args.ifa:
         found = False
         for i in get_if_list():
-            if i == ifa:
+            if i == args.ifa:
                 found = True
                 break
         if not found:
             print args.ifa + colores.ORANGE + ': Interface is not present\n' + colores.RED + 'End of program' + colores.RESETALL
-        return False
+            return False
 
     return True
