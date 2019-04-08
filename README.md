@@ -25,6 +25,6 @@ Execute the following command to start
 The victimIP, serverIP and attackerIP arguments are always required, unless you want to open the help page with -h. The arguments stand for the following:
 * -h: opens the help page
 * -i IFA: give the preferred interface over which the host will send packets
-* victimIP: IP of victim client
-* serverIP: IP of victim server
-* attackerIP: IP of attacker/host
+* victimIP: IPv4 address of victim client
+* serverIP: IPv4 of victim server
+* attackerIP: IPv4 of attacker/host
