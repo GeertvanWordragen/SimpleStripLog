@@ -1,4 +1,5 @@
 from scapy.all import *
+from colores import colores
 
 #get MAC from ip
 #for demo purposes, interface enp0s3 is used
@@ -8,9 +9,9 @@ def getmac(ip, interface):
         ans = srp1(packet, verbose = False, timeout = 10, iface = 'enp0s3')
     else:
         ans = srp1(packet, verbose = False, timeout = 10)
-    if ans[ARP] and ans[ARP].hwsrc:
+    try:
         return ans[ARP].hwsrc
-    else:
+    except:
        return None
 
 #get mac of host
