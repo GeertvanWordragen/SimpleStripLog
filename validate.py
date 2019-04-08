@@ -10,7 +10,6 @@ def ipv4(ip):
 
 #validate input from arguments
 def validate(args):
-    print 'hooi'
     if not args.victimIP or not args.serverIP or not args.attackerIP:
         return False
     
@@ -37,4 +36,17 @@ def validate(args):
             print args.ifa + colores.ORANGE + ': Interface is not present\n' + colores.RED + 'End of program' + colores.RESETALL
             return False
 
+    return True
+
+#validate sniffer input from arguments
+def validates(args):
+    if args.ifa:
+        found = False
+        for i in get_if_list():
+            if i == args.ifa:
+                found = True
+                break
+        if not found:
+            print args.ifa + colores.ORANGE + ': Interface is not present\n' + colores.RED + 'End of program' + colores.RESETALL
+            return False
     return True
