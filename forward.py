@@ -12,7 +12,7 @@ def forward(p):
         
 def startforwarding(ipServer):
     global ipToSpoof, ipVictim, ipLayerS, ipLayerC, attackerMac
-    attackerMac = gethostmac()
+    attackerMac = gethostmac('enp0s3')
     ipToSpoof = ipServer
     print "Listening as " + ipToSpoof
 

