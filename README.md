@@ -26,5 +26,5 @@ The victimIP, serverIP and attackerIP arguments are always required, unless you 
 * -h: opens the help page
 * -i IFA: give the preferred interface over which the host will send packets
 * victimIP: IPv4 address of victim client
-* serverIP: IPv4 of victim server
-* attackerIP: IPv4 of attacker/host
+* serverIP: IPv4 address of victim server
+* attackerIP: IPv4 address of attacker/host
