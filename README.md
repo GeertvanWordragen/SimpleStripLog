@@ -2,7 +2,7 @@
 
 This tool performs a simple SSL stripping attack, based on the ideas presented by Moxie Marlinspike in [2009](https://www.blackhat.com/presentations/bh-dc-09/Marlinspike/BlackHat-DC-09-Marlinspike-Defeating-SSL.pdf).
 
-##Requirements
+## Requirements
 
 The tool makes use of the following programs and modules, hence make sure that they are installed on your system when you want to use it.
 * [Python](https://www.python.org/)
@@ -10,7 +10,7 @@ The tool makes use of the following programs and modules, hence make sure that t
 * [argparse](https://docs.python.org/3/library/argparse.html)
 
 
-##Setup
+## Setup
 
 First, in order to prevent your system from sending RST packets as an answer to packets received from victim clients and servers, execute the following command.
 
