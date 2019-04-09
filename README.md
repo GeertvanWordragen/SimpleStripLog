@@ -20,11 +20,21 @@ Download/clone the code in this repository to the desired destination on your sy
 
 Execute the following command to start
 
-    python sslstrip.py [-h] [-i/--interface IFA] victimIP serverIP attackerIP
+    python sslstrip.py [-h] [-i/--interface IFA] [-t/--timeout TO] [-o/--output OUT] victimIP serverIP attackerIP
     
-The victimIP, serverIP and attackerIP arguments are always required, unless you want to open the help page with -h. The arguments stand for the following:
+The victimIP, serverIP and attackerIP arguments are always required, unless you want to open the help page with -h. The other arguments are optional. The arguments stand for the following:
 * -h: opens the help page
 * -i IFA: give the preferred interface over which the host will send packets
+* -t TO: give the preferred timeout for forwarding packets, default = 60
+* -o OUT: give the filename of pcap file to which forwarded packets are written
 * victimIP: IPv4 address of victim client
 * serverIP: IPv4 address of victim server
 * attackerIP: IPv4 address of attacker/host
+
+Additionally, there is a sniffer tool, which captures all packets. This is for example interesting when you want to collect the ARP packets sent for the poisoning. To use it, execute the following command in a separate terminal.
+
+        python sniffer.py [-h] [-i/--interface IFA] [-t/--timeout TO]  [-o/--output OUT]
+
+* -i IFA: give the preferred interface over which packets are sniffed
+* -t TO: give the preferred timeout for sniffing packets, default = 60
+* -o OUT: give the preferred filename to write the sniffed packets to, default = sslstrip.pcap
