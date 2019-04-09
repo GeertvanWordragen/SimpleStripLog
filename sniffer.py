@@ -7,6 +7,7 @@ from validate import validates
 parser = argparse.ArgumentParser(description = 'SSL stripping tool')
 parser.add_argument('-i', '--interface', help = 'Preferred interface for sniffing packets', dest = 'ifa', action = 'store', default = None)
 parser.add_argument('-t', '--timeout', help = 'Preferred timeout for sniffing packets, default = 60', dest = 'to', action = 'store', default = 60)
+parser.add_argument('-o', '--output', help = 'File to write sniffed packets to', dest = 'out', action = 'store', default = 'sslstrip.pcap')
 args = parser.parse_args()
 
 #validate input from command line
@@ -21,4 +22,4 @@ else:
     packets = sniff(timeout = args.to)
 
 #save sniffed packets
-wrpcap('sslstrip.pcap', packets)
+wrpcap(args.out, packets)
