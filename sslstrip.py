@@ -12,7 +12,7 @@ parser.add_argument('serverIP', help = 'IP of HTTPS server', metavar = 'serverIP
 parser.add_argument('attackerIP', help = 'IP of attacker', metavar = 'attackerIP')
 parser.add_argument('-i', '--interface', help = 'Preferred interface for sending packets from attacker', dest = 'ifa', action = 'store', default = None)
 parser.add_argument('-t', '--timeout', help = 'Preferred timeout for forwarding packets, default = 60', dest = 'to', action = 'store', default = 60)
-parser.add_argument('-o', '--output', help = 'File to write forwarded packets to', dest = 'out', action = 'store', default = None)
+parser.add_argument('-o', '--output', help = 'File to write forwarded packets to', dest = 'out', action = 'store_true', default = False)
 args = parser.parse_args()
 
 #validate input from command line
