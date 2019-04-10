@@ -5,9 +5,10 @@ This tool performs a simple SSL stripping attack, based on the ideas presented b
 ## Requirements
 
 The tool makes use of the following programs and modules, hence make sure that they are installed on your system when you want to use it.
-* [Python](https://www.python.org/)
-* [Scapy](https://scapy.net/)
+* [Python](https://www.python.org/) (version 2.x)
+* [Scapy](https://scapy.net/) (2.2.0 <= version < 2.3.3)
 * [argparse](https://docs.python.org/3/library/argparse.html)
+* [scapy-ssl_tls](https://pypi.org/project/scapy-ssl_tls/)
 
 
 ## Setup
