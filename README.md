@@ -34,8 +34,9 @@ The victimIP, serverIP and attackerIP arguments are always required, unless you 
 
 Additionally, there is a sniffer tool, which captures all packets. This is for example interesting when you want to collect the ARP packets sent for the poisoning. To use it, execute the following command in a separate terminal.
 
-        python sniffer.py [-h] [-i/--interface IFA] [-t/--timeout TO]  [-o/--output OUT]
+    python sniffer.py [-h] [-i/--interface IFA] [-t/--timeout TO]  [-o/--output OUT]
 
+* -h: opens the help page
 * -i IFA: give the preferred interface over which packets are sniffed
 * -t TO: give the preferred timeout for sniffing packets, default = 60
 * -o OUT: give the preferred filename to write the sniffed packets to, default = sslstrip.pcap
