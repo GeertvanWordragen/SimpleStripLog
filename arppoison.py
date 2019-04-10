@@ -6,7 +6,7 @@ from colores import colores
 def getmac(ip, interface):
     packet = Ether() / ARP(op = ARP.who_has, pdst = ip)
     if interface:
-        ans = srp1(packet, verbose = False, timeout = 10, iface = 'enp0s3')
+        ans = srp1(packet, verbose = False, timeout = 10, iface = interface)
     else:
         ans = srp1(packet, verbose = False, timeout = 10)
     try:
